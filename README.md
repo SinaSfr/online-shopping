@@ -1,16 +1,167 @@
-# React + Vite
+# Online Shopping Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A portfolio-grade e-commerce platform built to learn modern backend and frontend development practices.
 
-Currently, two official plugins are available:
+The project is designed as a generic online store and can be adapted to support various product categories such as electronics, books, clothing, accessories, and more.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Backend
 
-## Expanding the ESLint configuration
+* FastAPI
+* PostgreSQL
+* SQLAlchemy 2.x
+* Alembic
+* Redis (planned)
+* Celery (planned)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+
+* React
+* Vite
+* TailwindCSS
+
+### Infrastructure
+
+* Docker
+* Docker Compose
+
+---
+
+## Project Goals
+
+This project focuses on learning:
+
+* Clean Architecture
+* REST API Design
+* Authentication & Authorization
+* PostgreSQL
+* SQLAlchemy
+* Redis
+* Background Tasks
+* Docker
+* E-Commerce System Design
+* Production-Ready Development Practices
+
+---
+
+## Current Status
+
+Project Foundation Completed ✅
+
+Current features:
+
+* Dockerized development environment
+* FastAPI backend
+* React frontend
+* PostgreSQL database
+* API versioning
+* Health check endpoint
+
+---
+
+## Running the Project
+
+### Start Services
+
+```bash
+docker compose up --build
+```
+
+### Frontend
+
+```text
+http://localhost:5173
+```
+
+### Backend
+
+```text
+http://localhost:8000
+```
+
+### API Documentation
+
+```text
+http://localhost:8000/docs
+```
+
+### Health Check
+
+```text
+http://localhost:8000/api/v1/health
+```
+
+---
+
+## Branch Strategy
+
+```text
+main
+develop
+feature/*
+```
+
+Examples:
+
+```text
+feature/project-foundation
+feature/backend-configuration
+feature/authentication
+feature-product-catalog
+```
+
+---
+
+## Roadmap
+
+### Phase 1
+
+* Project Foundation
+* Docker Environment
+* API Versioning
+
+### Phase 2
+
+* Environment Configuration
+* Database Integration
+* SQLAlchemy Setup
+* Alembic Migrations
+
+### Phase 3
+
+* Authentication & Authorization
+
+### Phase 4
+
+* Product Catalog
+
+### Phase 5
+
+* Cart & Wishlist
+
+### Phase 6
+
+* Orders & Checkout
+
+### Phase 7
+
+* Reviews & Ratings
+
+### Phase 8
+
+* Admin Dashboard
+
+### Phase 9
+
+* Redis & Background Tasks
+
+### Phase 10
+
+* Production Deployment
+
+---
+
+Built for learning, experimentation, and professional portfolio development.
