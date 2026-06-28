@@ -5,6 +5,9 @@ services:
       context: ./backend
     container_name: ecommerce_backend
 
+    env_file:
+      - .env
+
     ports:
       - "8000:8000"
 
@@ -12,6 +15,12 @@ services:
       - ./backend:/app
 
     restart: unless-stopped
+
+    depends_on:
+      - postgres
+
+    networks:
+      - ecommerce_network
 
   frontend:
     build:
@@ -27,15 +36,22 @@ services:
 
     restart: unless-stopped
 
+    networks:
+      - ecommerce_network
+
   postgres:
     image: postgres:17-alpine
     container_name: ecommerce_postgres
 
-    environment:
-      POSTGRES_DB: ecommerce
-      POSTGRES_USER: ecommerce
-      POSTGRES_PASSWORD: ecommerce
+    env_file:
+          - .env
 
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    
     ports:
       - "5432:5432"
 
@@ -44,5 +60,12 @@ services:
 
     restart: unless-stopped
 
+    networks:
+      - ecommerce_network
+
 volumes:
   postgres_data:
+
+
+networks:
+  ecommerce_network:
