@@ -7,5 +7,3 @@ class Base(DeclarativeBase):
     Every model in the application should inherit from this class.
     """
     pass
-
-# Import all ORM models here so Alembic can discover them.

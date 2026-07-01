@@ -32,6 +32,15 @@ class Settings(BaseSettings):
     postgres_user: str
     postgres_password: str
 
+    # ==========================
+    # JWT / Authentication
+    # ==========================
+
+    jwt_secret_key: str
+    jwt_algorithm: str
+    access_token_expire_minutes: int
+    refresh_token_expire_days: int
+
     @computed_field
     @property
     def database_url(self) -> str:

@@ -6,6 +6,11 @@ from sqlalchemy import engine_from_config, pool
 from app.core.config import settings
 from app.db.base import Base
 
+# Import every ORM model so Alembic's autogenerate can see it in Base.metadata.
+# This lives here (not in db/base.py) because db/base.py is imported by the
+# models themselves - importing them back from there creates a circular import.
+from app.models.user import User  # noqa: E402,F401
+
 config = context.config
 
 if config.config_file_name is not None:
