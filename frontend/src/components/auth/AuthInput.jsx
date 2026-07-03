@@ -6,6 +6,9 @@ function AuthInput({
   type,
   placeholder,
   icon: Icon,
+  value,
+  onChange,
+  name,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,6 +27,9 @@ function AuthInput({
         />
 
         <input
+          name={name}
+          value={value}
+          onChange={onChange}
           type={
             isPassword
               ? showPassword
