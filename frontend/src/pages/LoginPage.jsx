@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Mail,
     Lock,
@@ -10,7 +11,34 @@ import AuthCard from "../components/auth/AuthCard";
 import AuthInput from "../components/auth/AuthInput";
 import SocialButton from "../components/auth/SocialButton";
 
+import { login } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+
 function LoginPage() {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await login(formData);
+
+            console.log("LOGIN SUCCESS:", res.data);
+
+            localStorage.setItem("access_token", res.data.access_token);
+
+            navigate("/");
+
+        } catch (err) {
+            console.log("LOGIN ERROR:", err.response?.data);
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-100 via-zinc-50 to-white p-6">
 
@@ -21,13 +49,17 @@ function LoginPage() {
                     subtitle="برای ادامه مسیر وارد حساب کاربری خود شوید"
                 >
 
-                    <form className="space-y-5">
+                    <form className="space-y-5" onSubmit={handleSubmit}>
 
                         <AuthInput
                             label="ایمیل"
                             type="email"
                             placeholder="you@example.com"
                             icon={Mail}
+                            value={formData.email}
+                            onChange={(e) =>
+                                setFormData({ ...formData, email: e.target.value })
+                            }
                         />
 
                         <AuthInput
@@ -35,6 +67,10 @@ function LoginPage() {
                             type="password"
                             placeholder="••••••••"
                             icon={Lock}
+                            value={formData.password}
+                            onChange={(e) =>
+                                setFormData({ ...formData, password: e.target.value })
+                            }
                         />
 
                         {/* Remember me */}
