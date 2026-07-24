@@ -54,3 +54,21 @@ class TokenResponse(BaseModel):
         description="Long-lived JWT. Only ever exchanged for a new access token - never accepted by protected endpoints."
     )
     token_type: str = Field(default="bearer", description="Always 'bearer'.")
+
+
+class RefreshRequest(BaseModel):
+    """
+    Payload for POST /auth/refresh.
+    """
+
+    refresh_token: str
+
+
+class AccessTokenResponse(BaseModel):
+    """
+    Response for POST /auth/refresh - only the access token is renewed.
+    The client keeps using its existing refresh token until it expires.
+    """
+
+    access_token: str
+    token_type: str = Field(default="bearer", description="Always 'bearer'.")
