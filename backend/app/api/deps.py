@@ -43,3 +43,20 @@ def get_current_user(
         raise unauthorized
 
     return user
+
+
+def require_admin(current_user: User = Depends(get_current_user)) -> User:
+    """
+    Same as get_current_user, but additionally requires is_superuser.
+
+    A 403 (not 401) here: the caller is authenticated (we know who they are)
+    but not authorized for this action - that distinction is worth keeping
+    in the response, not just internally.
+    """
+    if not current_user.is_superuser:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This action requires administrator privileges.",
+        )
+
+    return current_user

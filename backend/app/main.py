@@ -7,6 +7,8 @@ from app.api.router import api_router
 tags_metadata = [
     {"name": "Health", "description": "Service liveness check."},
     {"name": "Auth", "description": "Registration and login. Issues JWT access/refresh tokens."},
+    {"name": "Categories", "description": "Product category browsing and administration."},
+    {"name": "Products", "description": "Product catalog browsing and administration."},
 ]
 
 app = FastAPI(
