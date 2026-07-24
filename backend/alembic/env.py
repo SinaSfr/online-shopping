@@ -10,6 +10,8 @@ from app.db.base import Base
 # This lives here (not in db/base.py) because db/base.py is imported by the
 # models themselves - importing them back from there creates a circular import.
 from app.models.user import User  # noqa: E402,F401
+from app.models.category import Category  # noqa: E402,F401
+from app.models.product import Product  # noqa: E402,F401
 
 config = context.config
 
