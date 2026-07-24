@@ -1,9 +1,11 @@
+import jwt
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.core.security import (
     create_access_token,
     create_refresh_token,
+    decode_token,
     hash_password,
     verify_password,
 )
@@ -18,6 +20,10 @@ class EmailAlreadyRegisteredError(Exception):
 
 class InvalidCredentialsError(Exception):
     """Raised when login credentials don't match any active user."""
+
+
+class InvalidRefreshTokenError(Exception):
+    """Raised when a refresh token is malformed, expired, the wrong type, or its user is gone/inactive."""
 
 
 def register(db: Session, data: UserCreate) -> User:
@@ -52,3 +58,22 @@ def login(db: Session, email: str, password: str) -> TokenResponse:
         access_token=create_access_token(user.id),
         refresh_token=create_refresh_token(user.id),
     )
+
+
+def refresh_access_token(db: Session, refresh_token: str) -> str:
+    try:
+        payload = decode_token(refresh_token)
+    except jwt.PyJWTError:
+        raise InvalidRefreshTokenError() from None
+
+    if payload.get("type") != "refresh":
+        # An access token (or anything else) presented here is rejected -
+        # only a genuine refresh token can mint a new access token.
+        raise InvalidRefreshTokenError()
+
+    user = user_repository.get_by_id(db, int(payload["sub"]))
+
+    if user is None or not user.is_active:
+        raise InvalidRefreshTokenError()
+
+    return create_access_token(user.id)

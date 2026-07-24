@@ -41,6 +41,21 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int
     refresh_token_expire_days: int
 
+    # ==========================
+    # CORS
+    # ==========================
+
+    cors_origins: str
+
+    @computed_field
+    @property
+    def cors_origins_list(self) -> list[str]:
+        """
+        Browser origins allowed to call this API, e.g. the Vite dev server.
+        Configurable per environment - never hardcode this in main.py.
+        """
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
     @computed_field
     @property
     def database_url(self) -> str:

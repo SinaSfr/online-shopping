@@ -6,10 +6,18 @@ class UserCreate(BaseModel):
     Payload for POST /auth/register.
     """
 
-    first_name: str = Field(min_length=1, max_length=100)
-    last_name: str = Field(min_length=1, max_length=100)
-    email: EmailStr
-    password: str = Field(min_length=8, max_length=128)
+    first_name: str = Field(min_length=1, max_length=100, examples=["Amir"])
+    last_name: str = Field(min_length=1, max_length=100, examples=["Erfan"])
+    email: EmailStr = Field(
+        description="Must be unique across all accounts.",
+        examples=["amir@example.com"],
+    )
+    password: str = Field(
+        min_length=8,
+        max_length=128,
+        description="Plain text on the wire, hashed with Argon2 before storage - never stored or returned as-is.",
+        examples=["supersecret123"],
+    )
 
 
 class UserRead(BaseModel):
@@ -30,8 +38,8 @@ class LoginRequest(BaseModel):
     Payload for POST /auth/login.
     """
 
-    email: EmailStr
-    password: str
+    email: EmailStr = Field(examples=["amir@example.com"])
+    password: str = Field(examples=["supersecret123"])
 
 
 class TokenResponse(BaseModel):
@@ -39,6 +47,28 @@ class TokenResponse(BaseModel):
     Response for POST /auth/login - the pair the client stores.
     """
 
-    access_token: str
+    access_token: str = Field(
+        description="Short-lived JWT. Send as 'Authorization: Bearer <token>' on requests to protected endpoints."
+    )
+    refresh_token: str = Field(
+        description="Long-lived JWT. Only ever exchanged for a new access token - never accepted by protected endpoints."
+    )
+    token_type: str = Field(default="bearer", description="Always 'bearer'.")
+
+
+class RefreshRequest(BaseModel):
+    """
+    Payload for POST /auth/refresh.
+    """
+
     refresh_token: str
-    token_type: str = "bearer"
+
+
+class AccessTokenResponse(BaseModel):
+    """
+    Response for POST /auth/refresh - only the access token is renewed.
+    The client keeps using its existing refresh token until it expires.
+    """
+
+    access_token: str
+    token_type: str = Field(default="bearer", description="Always 'bearer'.")
